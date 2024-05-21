@@ -21,6 +21,6 @@ const productValidationSchema = z.object({
   inventory: inventoryValidationSchema
 });
 
-const a = 10;
+
 
 export default productValidationSchema;

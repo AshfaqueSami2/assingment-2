@@ -15,12 +15,41 @@ const getAllProductFromDB = async () => {
 
 //getting a single product from DB
 const getSingleProductFromDB = async (_id: string) => {
-  const result = await Products.findById( _id )
+  const result = await Products.findById(_id)
   return result
 }
+
+//update product
+
+const updateProductInformationInDB = async (_id: string) => {
+  const name = { price: 200 }
+  const result = await Products.findByIdAndUpdate(_id, name, { new: true })
+  if (!result) {
+    throw new Error('Product not found')
+  }
+  return result
+}
+
+const deleteProductFromDB = async (_id: string) => {
+  const result = await Products.findByIdAndDelete(_id)
+  if (!result) {
+    throw new Error('Product not found')
+  }
+  return result
+}
+
+
+const searchProductsInDB = async (searchTerm: string) => {
+    const regex = new RegExp(searchTerm, 'i'); // 'i' makes it case insensitive
+    const result = await Products.find({ name: { $regex: regex } });
+    return result;
+  }
 
 export const AllProducts = {
   createProductIntoDB,
   getAllProductFromDB,
   getSingleProductFromDB,
+  updateProductInformationInDB,
+  deleteProductFromDB,
+  searchProductsInDB,
 }
