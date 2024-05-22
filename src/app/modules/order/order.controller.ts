@@ -23,7 +23,6 @@ const createAnewOrder = async (req: Request, res: Response) => {
   }
 }
 
-
 //getting all orders
 const getAllOrders = async (req: Request, res: Response) => {
   try {
@@ -42,33 +41,32 @@ const getAllOrders = async (req: Request, res: Response) => {
   }
 }
 
-
 //getting orders via email
 const getOrdersByEmail = async (req: Request, res: Response) => {
   try {
-    const { email } = req.query;
+    const { email } = req.query
     if (!email) {
-      return res.status(400).json({ message: 'Email query parameter is required and should be a string' });
+      return res.status(400).json({ message: 'Email is Required' })
     }
-    const result = await AllOrder.getOrdersByEmailFromDB(email as string);
+    const result = await AllOrder.getOrdersByEmailFromDB(email as string)
+    //in here checking for email is matching with database email or not
     if (result.length === 0) {
-      return res.status(404).json({ message: 'No orders found for this email' });
+      return res.status(400).json({ message: 'No orders found for this email' })
     }
     res.status(200).json({
       success: true,
-      message: 'Orders fetched successfully with mail!',
+      message: 'Orders fetched successfully for user email!',
       data: result,
-    }) 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (err: any) {
-    res.status(500).json(err);
-  }
-};
+    })
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  
+  } catch (err: any) {
+    res.status(500).json(err)
+  }
+}
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 
 export const OrderController = {
   createAnewOrder,
-   getAllOrders,
+  getAllOrders,
   getOrdersByEmail,
 }

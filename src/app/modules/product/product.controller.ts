@@ -17,7 +17,6 @@ const createProduct = async (req: Request, res: Response) => {
     })
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     res.status(500).json({
       success: false,
       message: err.message,
@@ -32,7 +31,7 @@ const getAllProducts = async (req: Request, res: Response) => {
     const result = await AllProducts.getAllProductFromDB()
     res.status(200).json({
       success: true,
-      message: 'Product retrieved successfully',
+      message: 'Products fetched successfully!',
       data: result,
     })
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -46,13 +45,13 @@ const getAllProducts = async (req: Request, res: Response) => {
 }
 
 //getting single product
-const getSingleProduct = async (req: Request, res: Response) => {
+const getSingleProductWithId = async (req: Request, res: Response) => {
   try {
     const { productId } = req.params
     const result = await AllProducts.getSingleProductFromDB(productId)
     res.status(200).json({
       success: true,
-      message: 'Single Product retrieved successfully',
+      message: 'Product fetched successfully!',
       data: result,
     })
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -106,35 +105,44 @@ const deleteProduct = async (req: Request, res: Response) => {
 }
 
 //search product
+
 const searchProducts = async (req: Request, res: Response) => {
   try {
-    const { searchTerm } = req.query
-    const result = await AllProducts.searchProductsInDB(searchTerm as string)
+    const { searchTerm } = req.query;
+    console.log( searchTerm); 
     if (!searchTerm) {
       return res.status(400).json({
         success: false,
-        message: 'Search term is required',
-      })
+        message: 'Search term is required and should be a string.',
+      });
+    }
+    const result = await AllProducts.searchProductsInDB(searchTerm as string);
+    console.log('Search Result:', result); 
+    if (result.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: `No products found matching the search term '${searchTerm}'.`,
+      });
     }
     res.status(200).json({
       success: true,
-      message: 'Products retrieved successfully',
+      message: `Products matching search term '${searchTerm}' fetched successfully!`,
       data: result,
-    })
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    });
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
-    res.status(400).json({
+    res.status(500).json({
       success: false,
       message: err.message,
-      eror: err,
-    })
+      error: err,
+    });
   }
-}
+};
 
 export const ProductController = {
   createProduct,
   getAllProducts,
-  getSingleProduct,
+  getSingleProductWithId,
   updateProduct,
   deleteProduct,
   searchProducts,
