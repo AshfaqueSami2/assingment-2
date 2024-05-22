@@ -117,6 +117,7 @@ const searchProducts = async (req: Request, res: Response) => {
       message: 'Products retrieved successfully',
       data: result,
     })
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
     res.status(400).json({
       success: false,
