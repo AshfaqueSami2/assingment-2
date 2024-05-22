@@ -2,6 +2,7 @@ import { Request, Response } from 'express'
 import productValidationSchema from './product.validation'
 import { AllProducts } from './product.service'
 
+//creating a product
 const createProduct = async (req: Request, res: Response) => {
   try {
     const { product: ProductData } = req.body
@@ -44,6 +45,7 @@ const getAllProducts = async (req: Request, res: Response) => {
   }
 }
 
+//getting single product
 const getSingleProduct = async (req: Request, res: Response) => {
   try {
     const { productId } = req.params
@@ -63,6 +65,7 @@ const getSingleProduct = async (req: Request, res: Response) => {
   }
 }
 
+//update product
 const updateProduct = async (req: Request, res: Response) => {
   try {
     const { productId } = req.params
@@ -102,6 +105,7 @@ const deleteProduct = async (req: Request, res: Response) => {
   }
 }
 
+//search product
 const searchProducts = async (req: Request, res: Response) => {
   try {
     const { searchTerm } = req.query
@@ -117,7 +121,7 @@ const searchProducts = async (req: Request, res: Response) => {
       message: 'Products retrieved successfully',
       data: result,
     })
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
     res.status(400).json({
       success: false,

@@ -1,6 +1,7 @@
 import { Product } from './product.interface'
 import { Products } from './product.model'
 
+//create a product in DB
 const createProductIntoDB = async (productData: Product) => {
   const newProduct = new Products(productData)
   const result = await newProduct.save()
@@ -30,6 +31,7 @@ const updateProductInformationInDB = async (_id: string) => {
   return result
 }
 
+//delete a product from DB
 const deleteProductFromDB = async (_id: string) => {
   const result = await Products.findByIdAndDelete(_id)
   if (!result) {
@@ -38,7 +40,7 @@ const deleteProductFromDB = async (_id: string) => {
   return result
 }
 
-
+//Search a product
 const searchProductsInDB = async (searchTerm: string) => {
     const regex = new RegExp(searchTerm, 'i'); // 'i' makes it case insensitive
     const result = await Products.find({ name: { $regex: regex } });

@@ -3,7 +3,7 @@ import { Request, Response } from 'express'
 import orderValidationSchema from './order.validation'
 import { AllOrder } from './order.service'
 
-
+//create a order
 const createAnewOrder = async (req: Request, res: Response) => {
   try {
     const orderData = orderValidationSchema.parse(req.body)
@@ -23,6 +23,8 @@ const createAnewOrder = async (req: Request, res: Response) => {
   }
 }
 
+
+//getting all orders
 const getAllOrders = async (req: Request, res: Response) => {
   try {
     const result = await AllOrder.getAllOrdersFromDB()
@@ -40,6 +42,8 @@ const getAllOrders = async (req: Request, res: Response) => {
   }
 }
 
+
+//getting orders via email
 const getOrdersByEmail = async (req: Request, res: Response) => {
   try {
     const { email } = req.query;
