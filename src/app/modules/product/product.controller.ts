@@ -5,7 +5,7 @@ import { AllProducts } from './product.service'
 //creating a product
 const createProduct = async (req: Request, res: Response) => {
   try {
-    const ProductData  = req.body
+    const ProductData = req.body
 
     //data validation using zod
     const zodParseData = productValidationSchema.parse(ProductData)
@@ -47,7 +47,7 @@ const getAllProducts = async (req: Request, res: Response) => {
 //getting single product
 const getSingleProductWithId = async (req: Request, res: Response) => {
   try {
-    const { productId } = req.params
+    const { productId } = req.params;
     const result = await AllProducts.getSingleProductFromDB(productId)
     res.status(200).json({
       success: true,
@@ -108,7 +108,7 @@ const deleteProduct = async (req: Request, res: Response) => {
 
 const searchProducts = async (req: Request, res: Response) => {
   try {
-    const  searchTerm  = req.query.searchTerm
+    const searchTerm = req.query.searchTerm
     console.log(searchTerm)
     if (!searchTerm) {
       return res.status(400).json({
