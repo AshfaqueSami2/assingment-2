@@ -5,7 +5,7 @@ import { AllProducts } from './product.service'
 //creating a product
 const createProduct = async (req: Request, res: Response) => {
   try {
-    const { product: ProductData } = req.body
+    const ProductData  = req.body
 
     //data validation using zod
     const zodParseData = productValidationSchema.parse(ProductData)
@@ -108,36 +108,36 @@ const deleteProduct = async (req: Request, res: Response) => {
 
 const searchProducts = async (req: Request, res: Response) => {
   try {
-    const { searchTerm } = req.query;
-    console.log( searchTerm); 
+    const  searchTerm  = req.query.searchTerm
+    console.log(searchTerm)
     if (!searchTerm) {
       return res.status(400).json({
         success: false,
         message: 'Search term is required and should be a string.',
-      });
+      })
     }
-    const result = await AllProducts.searchProductsInDB(searchTerm as string);
-    console.log('Search Result:', result); 
+    const result = await AllProducts.searchProductsInDB(searchTerm as string)
+    console.log('Search Result:', result)
     if (result.length === 0) {
       return res.status(404).json({
         success: false,
         message: `No products found matching the search term '${searchTerm}'.`,
-      });
+      })
     }
     res.status(200).json({
       success: true,
       message: `Products matching search term '${searchTerm}' fetched successfully!`,
       data: result,
-    });
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    })
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
     res.status(500).json({
       success: false,
       message: err.message,
       error: err,
-    });
+    })
   }
-};
+}
 
 export const ProductController = {
   createProduct,

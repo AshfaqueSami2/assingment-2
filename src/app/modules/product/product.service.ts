@@ -24,7 +24,7 @@ const getSingleProductFromDB = async (_id: string) => {
 //update product
 
 const updateProductInformationInDB = async (_id: string) => {
-  const value = { price: 180 }
+  const value = { price: 800 }
   const result = await Products.findByIdAndUpdate(_id, value, { new: true })
   if (!result) {
     throw new Error('Product not found')
