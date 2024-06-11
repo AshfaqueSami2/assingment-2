@@ -1,14 +1,13 @@
 import { z } from 'zod';
 
-// Define Zod validation schemas
 const variantValidationSchema = z.object({
   type: z.string(),
-  value: z.string()
+  value: z.string(),
 });
 
 const inventoryValidationSchema = z.object({
   quantity: z.number(),
-  inStock: z.boolean()
+  inStock: z.boolean(),
 });
 
 const productValidationSchema = z.object({
@@ -18,9 +17,7 @@ const productValidationSchema = z.object({
   category: z.string(),
   tags: z.array(z.string()),
   variants: z.array(variantValidationSchema),
-  inventory: inventoryValidationSchema
+  inventory: inventoryValidationSchema,
 });
 
-const productsArrayValidationSchema = z.array(productValidationSchema);
-
-export default productsArrayValidationSchema;
+export default productValidationSchema;

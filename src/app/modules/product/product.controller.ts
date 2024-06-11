@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import productsArrayValidationSchema from './product.validation'
+import productsValidationSchema from './product.validation'
 import { AllProducts } from './product.service'
 
 //creating a product
@@ -8,7 +8,7 @@ const createProduct = async (req: Request, res: Response) => {
     const ProductData = req.body
 
     //data validation using zod
-    const zodParseData = productsArrayValidationSchema.parse(ProductData)
+    const zodParseData = productsValidationSchema.parse(ProductData)
     const result = await AllProducts.createProductIntoDB(zodParseData)
     res.status(200).json({
       success: true,
@@ -64,26 +64,31 @@ const getSingleProductWithId = async (req: Request, res: Response) => {
   }
 }
 
-//update product
+// Updating a product
 const updateProduct = async (req: Request, res: Response) => {
   try {
-    const { productId } = req.params
-    const result = await AllProducts.updateProductInformationInDB(productId)
+    const { productId } = req.params;
+    const updateData = req.body;
+
+    // Validate update data
+    const zodParseData = productsValidationSchema.parse(updateData);
+
+    const result = await AllProducts.updateProductInformationInDB(productId, zodParseData);
+
     res.status(200).json({
       success: true,
       message: 'Product updated successfully!',
       data: result,
-    })
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    });
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
     res.status(400).json({
       success: false,
       message: err.message,
-      eror: err,
-    })
+      error: err,
+    });
   }
-}
-
+};
 //delete Product
 const deleteProduct = async (req: Request, res: Response) => {
   try {

@@ -2,8 +2,11 @@ import { Product } from './product.interface'
 import { Products } from './product.model'
 
 //create a product in DB
-const createProductIntoDB = async (productData: Product[]) => {
-  const result = await Products.insertMany(productData)
+const createProductIntoDB = async (productData: Product) => {
+  // const result = await Products.insertMany(productData)
+  // return result
+  const newProduct = new Products(productData)
+  const result = await newProduct.save()
   return result
 }
 
@@ -20,15 +23,14 @@ const getSingleProductFromDB = async (_id: string) => {
 }
 
 //update product
-
-const updateProductInformationInDB = async (_id: string) => {
-  const value = { price: 450 }
-  const result = await Products.findByIdAndUpdate(_id, value, { new: true })
+// Update product information
+const updateProductInformationInDB = async (_id: string, updateData: Partial<Product>) => {
+  const result = await Products.findByIdAndUpdate(_id, updateData, { new: true });
   if (!result) {
-    throw new Error('Product not found')
+    throw new Error('Product not found');
   }
-  return result
-}
+  return result;
+};
 
 //delete a product from DB
 const deleteProductFromDB = async (_id: string) => {
